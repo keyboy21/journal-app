@@ -1,0 +1,19 @@
+{
+  "name": "journal-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "front:prepare": "cd journal-backend && npm install",
+    "front:dev": "cd journal-front && npm run dev",
+    "front:build": "cd journal-front && npm run build",
+    "front:start": "cd journal-front && npm run start",
+    "backend:prepare": "cd journal-backend && npm install",
+    "backend:dev": "cd journal-backend && npm run start:dev",
+    "backend:build": "cd journal-backend && npm run build",
+    "backend:start": "cd journal-backend && npm run start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
