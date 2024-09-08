@@ -1,0 +1,7 @@
+# front
+/journal-front/node_modules
+/journal-front/.next
+
+# backend
+/journal-backend/node_modules
+/journal-backend/dist
