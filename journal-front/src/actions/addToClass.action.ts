@@ -6,12 +6,13 @@ import ky from "ky";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 
-export const changeClass = async ({ classCode, studentId }: z.infer<typeof changeClassSchema>) => {
+export const addToClass = async ({ classCode, studentId, classId }: z.infer<typeof changeClassSchema>) => {
 
-     const res = await ky.post(`${BaseUrl}/students/changeClass`, {
+     const res = await ky.post(`${BaseUrl}/students/add-to-class`, {
           json: {
                classCode,
-               studentId
+               studentId,
+               classId
           }
      })
 

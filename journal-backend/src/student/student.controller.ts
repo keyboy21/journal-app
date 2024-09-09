@@ -19,9 +19,15 @@ export class StudentController {
           return await this.studentsService.createStudent(body);
      }
 
-     @Post('/changeClass')
+     @Post('/add-to-class')
      @UsePipes(new ZodValidationPipe(changeClassSchema))
      public async changeClass(@Body() body: changeClassDto) {
-          return await this.studentsService.changeClass(body);
+          return await this.studentsService.addStudentToClass(body);
+     }
+
+     @Post('/remove-from-class')
+     @UsePipes(new ZodValidationPipe(changeClassSchema))
+     public async disconnectFromClass(@Body() body: changeClassDto) {
+          return await this.studentsService.disconnectFromClass(body);
      }
 }

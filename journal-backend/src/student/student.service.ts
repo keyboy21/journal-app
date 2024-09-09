@@ -25,7 +25,7 @@ export class StudentService {
           })
      }
 
-     public async changeClass(data: changeClassDto) {
+     public async addStudentToClass(data: changeClassDto) {
           return await this.prismaService.cLass.update({
                where: {
                     id: data.classId,
@@ -34,6 +34,22 @@ export class StudentService {
                data: {
                     students: {
                          connect: {
+                              id: data.studentId
+                         }
+                    }
+               }
+          })
+     }
+
+     public async disconnectFromClass(data: changeClassDto) {
+          return await this.prismaService.cLass.update({
+               where: {
+                    id: data.classId,
+                    code: data.classCode
+               },
+               data: {
+                    students: {
+                         disconnect: {
                               id: data.studentId
                          }
                     }
