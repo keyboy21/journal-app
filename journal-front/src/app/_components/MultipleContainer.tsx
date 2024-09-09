@@ -9,7 +9,6 @@ import { Class, Student } from "@/types";
 import {
      DndContext,
      DragEndEvent,
-     DragMoveEvent,
      DragOverlay,
      DragStartEvent,
      KeyboardSensor,
