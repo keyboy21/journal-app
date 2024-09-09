@@ -3,9 +3,9 @@ import { getStudents } from "@/api/getStudents.api"
 import { MultipleContainer } from "./MultipleContainer"
 
 export const getTable = async () => {
-     const [students, classes] = await Promise.all(
-          [getStudents({ newStudents: true }), getClasses()]
-     )
+     const [students, classes] = await Promise.all([
+          getStudents(), getClasses()
+     ])
 
      if (!students || !classes) {
           return {
