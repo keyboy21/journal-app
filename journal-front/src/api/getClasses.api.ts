@@ -5,9 +5,7 @@ import ky from "ky";
 export const getClasses = async () => {
 
      const res = await ky.get(`${BaseUrl}/class`,{
-          next: {
-               tags: ['getClasses']
-          }
+          cache: 'no-store',
      }).json<Class[]>();
 
      return res

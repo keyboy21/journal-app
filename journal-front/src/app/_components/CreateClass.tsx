@@ -8,6 +8,7 @@ import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle } from "@/com
 import { useSheet } from "@/hooks/useModal";
 import { createClassSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { startTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -19,7 +20,7 @@ export const CreateClass = () => {
           resolver: zodResolver(createClassSchema),
           defaultValues: {
                name: "",
-               classColor: "",
+               classColor: "#000000",
           },
      });
 
@@ -27,8 +28,10 @@ export const CreateClass = () => {
           const res = await createClass(formData);
 
           if (res.ok) {
-               form.reset();
-               close();
+               startTransition(() => {
+                    form.reset();
+                    close();
+               })
           }
 
      };
@@ -39,57 +42,55 @@ export const CreateClass = () => {
                     Create Class
                </Button>
 
-               <SheetContent closeOnEscape closeOnOutside>
+               <SheetContent onClose={close}>
                     <SheetHeader>
                          <SheetTitle>
                               Create Class
                          </SheetTitle>
                     </SheetHeader>
-                    <SheetContent onClose={close}>
-                         <Form {...form}>
-                              <form
-                                   onSubmit={form.handleSubmit(onSave)}
-                                   className="flex flex-col gap-y-3"
-                              >
-                                   <FormField
-                                        control={form.control}
-                                        name="name"
-                                        render={({ field }) => (
-                                             <FormItem>
-                                                  <FormLabel>Class Name</FormLabel>
-                                                  <FormControl>
-                                                       <Input required placeholder="Name" {...field} />
-                                                  </FormControl>
-                                                  <FormMessage />
-                                             </FormItem>
-                                        )}
-                                   />
-                                   <FormField
-                                        control={form.control}
-                                        name="classColor"
-                                        render={({ field }) => (
-                                             <FormItem>
-                                                  <FormLabel>Class Color</FormLabel>
-                                                  <FormControl>
-                                                       <Input
-                                                            type="color"
-                                                            required placeholder="color" {...field} />
-                                                  </FormControl>
-                                                  <FormMessage />
-                                             </FormItem>
-                                        )}
-                                   />
-                                   <SheetFooter className="flex gap-3">
-                                        <Button color="green" type="submit">
-                                             Create
-                                        </Button>
-                                        <Button onClick={close} color="red">
-                                             Cancel
-                                        </Button>
-                                   </SheetFooter>
-                              </form>
-                         </Form>
-                    </SheetContent>
+                    <Form {...form}>
+                         <form
+                              onSubmit={form.handleSubmit(onSave)}
+                              className="flex flex-col gap-y-3"
+                         >
+                              <FormField
+                                   control={form.control}
+                                   name="name"
+                                   render={({ field }) => (
+                                        <FormItem>
+                                             <FormLabel>Class Name</FormLabel>
+                                             <FormControl>
+                                                  <Input required placeholder="Name" {...field} />
+                                             </FormControl>
+                                             <FormMessage />
+                                        </FormItem>
+                                   )}
+                              />
+                              <FormField
+                                   control={form.control}
+                                   name="classColor"
+                                   render={({ field }) => (
+                                        <FormItem>
+                                             <FormLabel>Class Color</FormLabel>
+                                             <FormControl>
+                                                  <Input
+                                                       type="color"
+                                                       required placeholder="color" {...field} />
+                                             </FormControl>
+                                             <FormMessage />
+                                        </FormItem>
+                                   )}
+                              />
+                              <SheetFooter className="flex gap-3">
+                                   <Button color="green" type="submit">
+                                        Create
+                                   </Button>
+                                   <Button onClick={close} color="red">
+                                        Cancel
+                                   </Button>
+                              </SheetFooter>
+                         </form>
+                    </Form>
                </SheetContent>
           </Sheet>
      )

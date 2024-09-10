@@ -166,7 +166,7 @@ export const MultipleContainer = ({ classes, newStudents }: MultipleContainerPro
                     onDragStart={handleDragStart}     
                     onDragEnd={handleDragEnd}
                >
-                    {containers.map((container) => (
+                    {classes.map((container) => (
                          <Column
                               id={container.code}
                               key={container.id}
@@ -198,9 +198,9 @@ export const MultipleContainer = ({ classes, newStudents }: MultipleContainerPro
                          <SortableContext
                               id="unassigned-students"
                               strategy={verticalListSortingStrategy}
-                              items={unassignedStudents.map((student) => student.id)}>
+                              items={newStudents.map((student) => student.id)}>
                               <div className="flex items-start flex-col gap-y-4">
-                                   {unassignedStudents.map((student) => (
+                                   {newStudents.map((student) => (
                                         <Item
                                              id={student.id}
                                              key={student.id}

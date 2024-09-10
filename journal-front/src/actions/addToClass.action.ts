@@ -3,7 +3,6 @@
 import { BaseUrl } from "@/config/env.config";
 import { changeClassSchema } from "@/schemas";
 import ky from "ky";
-import { revalidateTag } from "next/cache";
 import { z } from "zod";
 
 export const addToClass = async ({ classCode, studentId, classId }: z.infer<typeof changeClassSchema>) => {
@@ -17,8 +16,6 @@ export const addToClass = async ({ classCode, studentId, classId }: z.infer<type
      })
 
      if (res.ok) {
-          revalidateTag('getClasses')
-          revalidateTag('students')
           return {
                ok: res.ok
           }

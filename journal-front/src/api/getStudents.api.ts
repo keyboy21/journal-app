@@ -4,9 +4,7 @@ import ky from "ky";
 
 export const getStudents = async (newStudents = true) => {
      const res = await ky.get(`${BaseUrl}/students?newStudents=${newStudents}`, {
-          next: {
-               tags: ['students']
-          }
+          cache: 'no-store',
      }).json<Student[]>();
 
      return res

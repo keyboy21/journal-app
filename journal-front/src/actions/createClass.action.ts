@@ -3,7 +3,7 @@
 import { BaseUrl } from "@/config/env.config";
 import { createClassSchema } from "@/schemas";
 import ky from "ky";
-import { revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export const createClass = async ({ name, classColor }: z.infer<typeof createClassSchema>) => {
@@ -14,16 +14,11 @@ export const createClass = async ({ name, classColor }: z.infer<typeof createCla
                classColor
           }
      })
+     
+     revalidatePath('/', 'page')
 
-     if (res.ok) {
-          revalidateTag('getClasses')
-          return {
-               ok: res.ok
-          }
-     } else {
-          return {
-               ok: res.ok
-          }
+     return {
+          ok: res.ok
      }
 }
 
