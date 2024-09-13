@@ -48,22 +48,23 @@ export const MultipleContainer = ({ classes, newStudents }: MultipleContainerPro
 
      const handleDragEnd = async (event: DragEndEvent) => {
           const { active, over } = event;
-          console.log('over', over)
           // Check if a valid drop target exists
           if (!over) return;
 
+          // Active student
           const activeId = active.id;
+          // Class to which the student is being dragged(class code)
           const overId = over.id;
 
-          // Case 1: Dragging a student from one class to another class
+          // Which class student is being taken from
           const fromClassIndex = containers.findIndex((container) =>
                container.students.some((student) => student.id === activeId)
           );
+          // Which class student is being moved to
           const toClassIndex = containers.findIndex(
                (container) => container.code === overId
           );
-
-          // Case 2: Dragging a student from unassigned students to a class
+          // Check if student is being moved from unassigned students
           const isActiveFromUnassigned = unassignedStudents.some(
                (student) => student.id === activeId
           );
@@ -71,7 +72,7 @@ export const MultipleContainer = ({ classes, newStudents }: MultipleContainerPro
           // Check if student is being moved from unassigned students to a class
           const isOverUnassigned = over.data.current?.sortable.containerId === "unassigned-students";
 
-          // Case 3: Dragging a student from one class to another class
+          // Case 1: Dragging a student from one class to another class
           if (fromClassIndex !== -1 && toClassIndex !== -1) {
                // Move student between classes
                const fromClass = containers[fromClassIndex];
@@ -101,6 +102,7 @@ export const MultipleContainer = ({ classes, newStudents }: MultipleContainerPro
                     setContainers(updatedContainers);
                     await addToClass({ classCode: toClass.code, studentId: studentToMove.id, classId: toClass.id })
                }
+               // Case 2: Dragging a student from unassigned students to another class     
           } else if (isActiveFromUnassigned && toClassIndex !== -1) {
                // Move from unassigned students to a class
                const studentToMove = unassignedStudents.find(
@@ -108,7 +110,7 @@ export const MultipleContainer = ({ classes, newStudents }: MultipleContainerPro
                );
 
                if (studentToMove) {
-                    const updatedUnassignedStudents = unassignedStudents.filter(
+                    const removeStudentFromUnassigned = unassignedStudents.filter(
                          (student) => student.id !== activeId
                     );
 
@@ -122,12 +124,12 @@ export const MultipleContainer = ({ classes, newStudents }: MultipleContainerPro
                     updatedContainers[toClassIndex] = updatedToClass;
 
                     // Correctly update both containers and unassigned students
-                    setUnassignedStudents(updatedUnassignedStudents);
+                    setUnassignedStudents(removeStudentFromUnassigned);
                     setContainers(updatedContainers);
                     await addToClass({ classCode: targetClass.code, studentId: studentToMove.id, classId: targetClass.id })
                }
           }
-          // Case 4: Dragging a student from one class to unassigned students 
+          // Case 3: Dragging a student from one class to unassigned students 
           else if (fromClassIndex !== -1 && isOverUnassigned) {
                // Move from a class to unassigned students
                const fromClass = containers[fromClassIndex];
@@ -163,7 +165,7 @@ export const MultipleContainer = ({ classes, newStudents }: MultipleContainerPro
           <div className="flex flex-row gap-5 justify-start overflow-x-scroll py-10 w-full">
                <DndContext
                     sensors={sensors}
-                    onDragStart={handleDragStart}     
+                    onDragStart={handleDragStart}
                     onDragEnd={handleDragEnd}
                >
                     {classes.map((container) => (
